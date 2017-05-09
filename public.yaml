@@ -1,0 +1,1638 @@
+# public.yaml -- describes endpoints associated with the public GIPHY API.
+
+---
+swagger: '2.0'
+info:
+  version: '0.9.3'
+  title: giphy-api
+  description: Giphy's public api.
+host: api.giphy.com
+basePath: /v1
+schemes:
+  - http
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /gifs/search:
+    x-gelato-group: '/gifs'
+    get:
+      summary: Search Endpoint
+      description: Search all Giphy GIFs for a word or phrase. Punctuation will be stripped and ignored. Use a plus or url encode for phrases. Example paul+rudd, ryan+gosling or american+psycho.
+      parameters:
+      - $ref: '#/parameters/ApiKeyParam'
+      - $ref: '#/parameters/QueryParam'
+      - $ref: '#/parameters/LimitParam'
+      - $ref: '#/parameters/OffsetParam'
+      - $ref: '#/parameters/RatingParam'
+      - $ref: '#/parameters/LangParam'
+      - $ref: '#/parameters/FormatParam'
+      responses:
+        200:
+          description: GIF Search Results
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                description: ''
+                minItems: 0
+                maxItems: 100
+                uniqueItems: true
+                items:
+                  $ref: '#/definitions/Gif'
+              pagination:
+                $ref: '#/definitions/Pagination'
+              meta:
+                description: ''
+                $ref: '#/definitions/MetaContent'
+        400:
+          $ref: '#/responses/BadRequestResponse'
+
+        403:
+          $ref: '#/responses/ForbiddenResponse'
+
+        404:
+          $ref: '#/responses/NotFoundResponse'
+
+        429:
+          $ref: '#/responses/TooManyRequestResponse'
+
+        default:
+          $ref: '#/responses/DefaultResponse'
+  /gifs/translate:
+    x-gelato-group: '/gifs'
+    get:
+      summary: Translate Endpoint
+      description: The translate API draws on search, but uses the Giphy `special sauce` to handle translating from one vocabulary to another. In this case, words and phrases to GIFs.
+      parameters:
+      - $ref: '#/parameters/ApiKeyParam'
+      - $ref: '#/parameters/SearchParam'
+      responses:
+        200:
+          description: GIF Search Results
+          schema:
+            type: object
+            properties:
+              data:
+                $ref: '#/definitions/Gif'
+              meta:
+                description: ''
+                $ref: '#/definitions/MetaContent'
+        400:
+          $ref: '#/responses/BadRequestResponse'
+
+        403:
+          $ref: '#/responses/ForbiddenResponse'
+
+        404:
+          $ref: '#/responses/NotFoundResponse'
+
+        429:
+          $ref: '#/responses/TooManyRequestResponse'
+
+        default:
+          $ref: '#/responses/DefaultResponse'
+  /gifs/trending:
+    x-gelato-group: '/gifs'
+    get:
+      summary: Trending GIFs Endpoint
+      description: 'Fetch GIFs currently trending online. Hand curated by the GIPHY editorial team. The data returned mirrors the GIFs showcased on the <a href = "http://www.giphy.com">GIPHY homepage</a>. Returns 25 results by default.'
+      parameters:
+      - $ref: '#/parameters/ApiKeyParam'
+      - $ref: '#/parameters/LimitParam'
+      - $ref: '#/parameters/RatingParam'
+      - $ref: '#/parameters/FormatParam'
+      responses:
+        200:
+          description: GIF Search Results
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                description: ''
+                minItems: 0
+                maxItems: 100
+                uniqueItems: true
+                items:
+                  $ref: '#/definitions/Gif'
+              pagination:
+                $ref: '#/definitions/Pagination'
+              meta:
+                description: ''
+                $ref: '#/definitions/MetaContent'
+        400:
+          $ref: '#/responses/BadRequestResponse'
+
+        403:
+          $ref: '#/responses/ForbiddenResponse'
+
+        404:
+          $ref: '#/responses/NotFoundResponse'
+
+        429:
+          $ref: '#/responses/TooManyRequestResponse'
+
+        default:
+          $ref: '#/responses/DefaultResponse'
+  /gifs/random:
+    x-gelato-group: '/gifs'
+    get:
+      summary: Random Endpoint
+      description: 'Returns a random GIF, limited by tag. Excluding the tag parameter will return a random GIF from the GIPHY catalog.'
+      parameters:
+      - $ref: '#/parameters/ApiKeyParam'
+      - $ref: '#/parameters/TagParam'
+      - $ref: '#/parameters/RatingParam'
+      - $ref: '#/parameters/FormatParam'
+      responses:
+        200:
+          description: GIF Search Results
+          schema:
+            type: object
+            properties:
+              data:
+                $ref: '#/definitions/RandomGif'
+              meta:
+                description: ''
+                $ref: '#/definitions/MetaContent'
+        400:
+          $ref: '#/responses/BadRequestResponse'
+
+        403:
+          $ref: '#/responses/ForbiddenResponse'
+
+        404:
+          $ref: '#/responses/NotFoundResponse'
+
+        429:
+          $ref: '#/responses/TooManyRequestResponse'
+
+        default:
+          $ref: '#/responses/DefaultResponse'
+  '/gifs/{gif_id}':
+    x-gelato-group: '/gifs'
+    get:
+      summary: Get GIF by ID Endpoint
+      description: "Returns a GIF given that GIF's unique ID"
+      parameters:
+      - $ref: '#/parameters/ApiKeyParam'
+      - $ref: '#/parameters/GifIDParam'
+      responses:
+        200:
+          description: GIF Search Results
+          schema:
+            type: object
+            properties:
+              data:
+                $ref: '#/definitions/Gif'
+              meta:
+                description: ''
+                $ref: '#/definitions/MetaContent'
+        400:
+          $ref: '#/responses/BadRequestResponse'
+
+        403:
+          $ref: '#/responses/ForbiddenResponse'
+
+        404:
+          $ref: '#/responses/NotFoundResponse'
+
+        429:
+          $ref: '#/responses/TooManyRequestResponse'
+
+        default:
+          $ref: '#/responses/DefaultResponse'
+  '/gifs':
+    x-gelato-group: '/gifs'
+    get:
+      summary: Get GIFs by ID Endpoint
+      description: "A multiget version of the get GIF by ID endpoint."
+      parameters:
+      - $ref: '#/parameters/ApiKeyParam'
+      - name: ids
+        in: query
+        description: Filters results by specified GIF IDs, separated by commas.
+        x-example: 'feqkVgjJpYtjy,7rzbxdu0ZEXLy'
+        required: true
+        type: string
+      responses:
+        200:
+          description: GIF Search Results
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                description: ''
+                minItems: 0
+                maxItems: 100
+                uniqueItems: true
+                items:
+                  $ref: '#/definitions/Gif'
+              pagination:
+                $ref: '#/definitions/Pagination'
+              meta:
+                description: ''
+                $ref: '#/definitions/MetaContent'
+        400:
+          $ref: '#/responses/BadRequestResponse'
+
+        403:
+          $ref: '#/responses/ForbiddenResponse'
+
+        404:
+          $ref: '#/responses/NotFoundResponse'
+
+        429:
+          $ref: '#/responses/TooManyRequestResponse'
+
+        default:
+          $ref: '#/responses/DefaultResponse'
+  /gifs/categories:
+    x-gelato-group: '/gifs'
+    get:
+      summary: Categories Endpoint.
+      description: Returns a list of categories.
+      parameters:
+      - $ref: '#/parameters/ApiKeyParam'
+      - $ref: '#/parameters/LimitParam'
+      responses:
+        200:
+          description: Categories Results
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/Category'
+              pagination:
+                $ref: '#/definitions/Pagination'
+              meta:
+                $ref: '#/definitions/MetaContent'
+  '/gifs/categories/{category}':
+    x-gelato-group: '/gifs'
+    get:
+      summary: Category Tags Endpoint.
+      description: Returns a list of tags for a given category. NOTE `limit` and `offset` must both be set; otherwise they're ignored.
+      parameters:
+      - $ref: '#/parameters/ApiKeyParam'
+      - $ref: '#/parameters/CategoryPathParam'
+      - $ref: '#/parameters/LimitParam'
+      - $ref: '#/parameters/OffsetParam'
+      responses:
+        200:
+          description: ''
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/Tag'
+              pagination:
+                $ref: '#/definitions/Pagination'
+              meta:
+                $ref: '#/definitions/MetaContent'
+  '/gifs/categories/{category}/{tag}':
+    x-gelato-group: '/gifs'
+    get:
+      summary: Tagged Gifs Endpoint.
+      description: Returns a list of gifs for a given tag (alias to `/gif/search`).
+      parameters:
+      - $ref: '#/parameters/ApiKeyParam'
+      - $ref: '#/parameters/CategoryPathParam'
+      - $ref: '#/parameters/TagPathParam'
+      - $ref: '#/parameters/LimitParam'
+      - $ref: '#/parameters/OffsetParam'
+      responses:
+        200:
+          description: ''
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/Gif'
+              pagination:
+                $ref: '#/definitions/Pagination'
+              meta:
+                $ref: '#/definitions/MetaContent'
+  /stickers/search:
+    x-gelato-group: '/stickers'
+    get:
+      summary: Sticker Search Endpoint
+      description: Replicates the functionality and requirements of the classic GIPHY search, but returns animated stickers rather than GIFs. 
+      parameters:
+      - $ref: '#/parameters/ApiKeyParam'
+      - $ref: '#/parameters/QueryParam'
+      - $ref: '#/parameters/LimitParam'
+      - $ref: '#/parameters/OffsetParam'
+      - $ref: '#/parameters/RatingParam'
+      - $ref: '#/parameters/LangParam'
+      - $ref: '#/parameters/FormatParam'
+      responses:
+        200:
+          description: GIF Search Results
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                description: ''
+                minItems: 0
+                maxItems: 100
+                uniqueItems: true
+                items:
+                  $ref: '#/definitions/Gif'
+              pagination:
+                $ref: '#/definitions/Pagination'
+              meta:
+                description: ''
+                $ref: '#/definitions/MetaContent'
+        400:
+          $ref: '#/responses/BadRequestResponse'
+
+        403:
+          $ref: '#/responses/ForbiddenResponse'
+
+        404:
+          $ref: '#/responses/NotFoundResponse'
+
+        429:
+          $ref: '#/responses/TooManyRequestResponse'
+
+        default:
+          $ref: '#/responses/DefaultResponse'
+  /stickers/translate:
+    x-gelato-group: '/stickers'
+    get:
+      summary: Sticker Translate Endpoint
+      description: The translate API draws on search, but uses the Giphy `special sauce` to handle translating from one vocabulary to another. In this case, words and phrases to GIFs.
+      parameters:
+      - $ref: '#/parameters/ApiKeyParam'
+      - $ref: '#/parameters/SearchParam'
+      responses:
+        200:
+          description: GIF Search Results
+          schema:
+            type: object
+            properties:
+              data:
+                $ref: '#/definitions/Gif'
+              meta:
+                description: ''
+                $ref: '#/definitions/MetaContent'
+        400:
+          $ref: '#/responses/BadRequestResponse'
+
+        403:
+          $ref: '#/responses/ForbiddenResponse'
+
+        404:
+          $ref: '#/responses/NotFoundResponse'
+
+        429:
+          $ref: '#/responses/TooManyRequestResponse'
+
+        default:
+          $ref: '#/responses/DefaultResponse'
+  /stickers/trending:
+    x-gelato-group: '/stickers'
+    get:
+      summary: Trending Stickers Endpoint
+      description: 'Fetch GIFs currently trending online. Hand curated by the GIPHY editorial team. The data returned mirrors the GIFs showcased on the <a href = "http://www.giphy.com">GIPHY homepage</a>. Returns 25 results by default.'
+      parameters:
+      - $ref: '#/parameters/ApiKeyParam'
+      - $ref: '#/parameters/LimitParam'
+      - $ref: '#/parameters/RatingParam'
+      - $ref: '#/parameters/FormatParam'
+      responses:
+        200:
+          description: GIF Search Results
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                description: ''
+                minItems: 0
+                maxItems: 100
+                uniqueItems: true
+                items:
+                  $ref: '#/definitions/Gif'
+              pagination:
+                $ref: '#/definitions/Pagination'
+              meta:
+                description: ''
+                $ref: '#/definitions/MetaContent'
+        400:
+          $ref: '#/responses/BadRequestResponse'
+
+        403:
+          $ref: '#/responses/ForbiddenResponse'
+
+        404:
+          $ref: '#/responses/NotFoundResponse'
+
+        429:
+          $ref: '#/responses/TooManyRequestResponse'
+
+        default:
+          $ref: '#/responses/DefaultResponse'
+  /stickers/random:
+    x-gelato-group: '/stickers'
+    get:
+      summary: Random Sticker Endpoint
+      description: 'Returns a random GIF, limited by tag. Excluding the tag parameter will return a random GIF from the GIPHY catalog.'
+      parameters:
+      - $ref: '#/parameters/ApiKeyParam'
+      - $ref: '#/parameters/TagParam'
+      - $ref: '#/parameters/RatingParam'
+      - $ref: '#/parameters/FormatParam'
+      responses:
+        200:
+          description: GIF Search Results
+          schema:
+            type: object
+            properties:
+              data:
+                $ref: '#/definitions/RandomGif'
+              meta:
+                description: ''
+                $ref: '#/definitions/MetaContent'
+        400:
+          $ref: '#/responses/BadRequestResponse'
+
+        403:
+          $ref: '#/responses/ForbiddenResponse'
+
+        404:
+          $ref: '#/responses/NotFoundResponse'
+
+        429:
+          $ref: '#/responses/TooManyRequestResponse'
+
+        default:
+          $ref: '#/responses/DefaultResponse'          
+
+#################################
+# PARAMETERS OBJECTS
+#################################
+parameters:
+  ApiKeyParam:
+    name: api_key
+    in: query
+    description: Giphy API Key.
+    x-example: dc6zaTOxFJmzC
+    type: string
+    required: true
+
+  SlugParam:
+    name: slug
+    in: path
+    description: Filters results by specified channel identifier.
+    required: true
+    type: string
+
+  GifIDParam:
+    name: gif_id
+    in: path
+    description: Filters results by specified GIF ID.
+    required: true
+    type: string
+
+  CategoryPathParam:
+    name: category
+    in: path
+    description: Filters results by category.
+    required: true
+    type: string
+
+  TagPathParam:
+    name: tag
+    in: path
+    description: Filters results by tag.
+    required: true
+    type: string
+
+  LimitParam:
+    name: limit
+    in: query
+    description: The maximum number of records to return.
+    x-example: 20
+    required: false
+    type: integer
+    format: int32
+    default: 25
+    minimum: 1
+    maximum: 100
+
+  LangParam:
+    name: lang 
+    in: query
+    description: 'Specify default country for regional content; use a 2-letter ISO 639-1 country code. See list of supported languages <a href = "../language-support">here</a>.'
+    x-example: en
+    required: false
+    type: string
+
+  OffsetParam:
+    name: offset
+    in: query
+    description: An optional results offset. Defaults to 0.
+    x-example: 5
+    required: false
+    type: integer
+    format: int32
+    default: 0
+    minimum: 0
+    maximum: 100
+
+  SortParam:
+    name: sort
+    in: query
+    description: Used for sorting channel, default is descending timestamp.
+    required: false
+    type: string
+    enum:
+      - asc
+      - desc
+    default: desc
+
+  FormatParam:
+    name: fmt
+    in: query
+    description: Used to indicate the expected response format. Default is Json.
+    x-example: html
+    required: false
+    type: string
+    enum:
+      - json
+      - html
+    default: json
+
+  QueryParam:
+    name: q
+    in: query
+    description: Search query term or prhase.
+    required: true
+    type: string
+    x-example: cheeseburgers
+
+  SearchParam:
+    name: s
+    in: query
+    description: Search term.
+    required: true
+    type: string
+    x-example: ryan gosling
+
+  UsernameParam:
+    name: username
+    in: query
+    description: Filters channels by specified username.
+    required: false
+    type: string
+
+  IsPrivateParam:
+    name: is_private
+    in: query
+    description: Filters results by is_private flag.
+    required: false
+    type: boolean
+
+  IsIndexableParam:
+    name: is_indexable
+    in: query
+    description: Filters results by is_indexable flag. Giphy only.
+    required: false
+    type: boolean
+
+  TagParam:
+    name: tag
+    in: query
+    description: Filters results by specified tag.
+    x-example: burrito
+    required: false
+    type: string
+      
+  RatingParam:
+    name: rating
+    in: query
+    description: Filters results by specified rating.
+    x-example: g
+    required: false
+    type: string
+
+  CallbackParam:
+    name: callback
+    in: query
+    description: Json callback that is returned with the response.
+    required: false
+    type: string
+
+#################################
+# RESPONSES OBJECTS
+#################################
+responses:
+  BadRequestResponse:
+    description: Bad Request
+    schema:
+      type: object
+      properties:
+        meta:
+          $ref: '#/definitions/MetaContent'
+
+  ForbiddenResponse:
+    description: Forbidden
+    schema:
+      $ref: '#/definitions/MetaObject'
+
+  NotFoundResponse:
+    description: Not Found
+    schema:
+      $ref: '#/definitions/MetaObject'
+
+  TooManyRequestResponse:
+    description: Too many requests
+    schema:
+      $ref: '#/definitions/MetaObject'
+
+  DefaultResponse:
+    description: Unexpected error
+    schema:
+      $ref: '#/definitions/MetaObject'
+
+#################################
+# DEFINITION OBJECTS
+#################################
+definitions:
+  BaseChannelModel:
+    type: object
+    properties:
+      type:
+        type: string
+        description: Always "channel"
+        default: 'channel'
+      id:
+        type: integer
+        format: int32
+        description: '123'
+      parent:
+        type: string
+        description: parent's slug
+      create_datetime:
+        type: string
+        description: 'xyz'
+      breadcrumbs:
+        type: array
+        minItems: 0
+        maxItems: 4
+        uniqueItems: true
+        items:
+          $ref: '#/definitions/Breadcrumb'
+      username:
+        type: string
+        description: 'xyz'
+      slug:
+        type: string
+        example: 'parent-child-grandchild-greatgrandchild'
+      title:
+        type: string
+        description: 'xyz'
+      short_title:
+        type: string
+        description: 'xyz'
+      description:
+        type: string
+        description: 'xyz'
+      featured_gif:
+        $ref: '#/definitions/Gif'
+      banner_image:
+        type: string
+        description: 'xyz'
+      avatar_image:
+        type: string
+        description: 'xyz'
+      screensaver_gif:
+        $ref: '#/definitions/Gif'
+      is_private:
+        type: boolean
+      is_live:
+        type: boolean
+      event_start_datetime:
+        type: string
+        description: 'xyz'
+      event_end_datetime:
+        type: string
+        description: 'xyz'
+      has_children:
+        type: boolean
+      url:
+        type: string
+        description: 'xyz'
+      website_url:
+        type: string
+        description: 'xyz'
+      instagram_url:
+        type: string
+        description: 'xyz'
+      twitter_url:
+        type: string
+        description: 'xyz'
+      facebook_url:
+        type: string
+        description: 'xyz'
+      pinterest_url:
+        type: string
+        description: 'xyz'
+      tumblr_url:
+        type: string
+        description: 'xyz'
+      user:
+        $ref: '#/definitions/User'
+      trending_tags:
+        type: array
+        minItems: 0
+        maxItems: 10
+        uniqueItems: true
+        items:
+          $ref: '#/definitions/TrendingTag'
+      gifs:
+        type: object
+        properties:
+          data:
+            type: array
+            minItems: 0
+            maxItems: 25
+            uniqueItems: true
+            items:
+              $ref: '#/definitions/Gif'
+          pagination:
+            $ref: '#/definitions/Pagination'
+
+  ChannelWithChildrenModel:
+    allOf:
+      - $ref: '#/definitions/BaseChannelModel'
+      - type: object
+        properties:
+          children:
+            type: object
+            properties:
+              data:
+                type: array
+                minItems: 0
+                maxItems: 10
+                uniqueItems: true
+                items:
+                  $ref: '#/definitions/LastChildModel'
+              pagination:
+                $ref: '#/definitions/Pagination'
+
+  LastChildModel:
+    allOf:
+      - $ref: '#/definitions/BaseChannelModel'
+      - type: object
+        properties:
+          children:
+            type: object
+            properties:
+              data:
+                type: array
+                minItems: 0
+                maxItems: 10
+                uniqueItems: true
+                items:
+                  $ref: '#/definitions/BaseChannelModel'
+              pagination:
+                $ref: '#/definitions/Pagination'
+
+  User:
+    type: object
+    description: An object containing data about the user associated with this GIF, if applicable.
+    properties:
+      avatar_url:
+        type: string
+        description: The URL for this user's avatar image.
+        example: 'https://media1.giphy.com/avatars/election2016/XwYrZi5H87o6.gif'
+      banner_url:
+        type: string
+        description: The URL for the banner image that appears atop this user's profile page.
+        example: 'https://media4.giphy.com/avatars/cheezburger/XkuejOhoGLE6.jpg'
+      profile_url:
+        type: string
+        description: The URL for this user's profile.      
+        example: 'https://giphy.com/cheezburger/'
+      username:
+        type: string
+        description: The username associated with this user.
+        example: 'joecool4000'
+      display_name:
+        type: string
+        description: The display name associated with this user (contains formatting the base username might not).
+        example: 'JoeCool4000'
+      twitter:
+        type: string
+        description: The Twitter username associated with this user, if applicable.
+        example: '@joecool4000'
+
+  TrendingTag:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int32
+      name_encoded:
+        type: string
+        example: 'presidential-debate-2016'
+      name:
+        type: string
+        example: 'presidential debate 2016'
+
+  Pagination:
+    type: object
+    properties:
+      offset:
+        type: integer
+        format: int32
+        description: Position in pagination.
+        example: 0
+      total_count:
+        type: integer
+        format: int32
+        description: Total number of items available.
+        example: 2591
+      count:
+        type: integer
+        format: int32
+        description: Total number of items returned.
+        example: 25
+      # has_next:
+      #   type: boolean
+
+  Breadcrumb:
+    type: object
+    properties:
+      url:
+        type: string
+        example: '/election2016'
+      id:
+        type: integer
+        format: int32
+      name:
+        type: string
+        example: 'Election 2016'
+
+  Gif:
+    type: object
+    description: An object containing data that describes GIFs returned by the query.
+    properties:
+      type:
+        type: string
+        description: By default, this is almost always gif
+        default: 'gif'
+        example: 'gif'
+      id:
+        type: string
+        example: 'YsTs5ltWtEhnq'
+        description: This GIF's unique ID
+      slug:
+        type: string
+        example: 'confused-flying-YsTs5ltWtEhnq'
+        description: The unique slug used in this GIF's URL
+      url:
+        type: string
+        example: 'http://giphy.com/gifs/confused-flying-YsTs5ltWtEhnq'
+        description: The unique URL for this GIF
+      bitly_gif_url:
+        type: string
+        example: 'http://gph.is/1gsWDcL'
+        description: The unique bit.ly URL for this GIF
+      bitly_url:
+        type: string
+        example: 'http://gph.is/1gsWDcL'
+        description: The unique bit.ly URL for this GIF
+      embed_url:
+        type: string
+        example: 'http://giphy.com/embed/YsTs5ltWtEhnq'
+        description: A URL used for embedding this GIF
+      username:
+        type: string
+        example: 'JoeCool4000'
+        description: The username this GIF is attached to, if applicable
+      source:
+        type: string
+        example: 'http://www.reddit.com/r/reactiongifs/comments/1xpyaa/superman_goes_to_hollywood/'
+        description: The page on which this GIF was found
+      rating:
+        type: string
+        example: 'g'
+        description: The MPAA-style rating for this content. Examples include Y, G, PG, PG-13 and R
+      content_url:
+        type: string
+        example: ''
+        description: Currently unused
+      tags:
+        type: array
+        description: 'An array of tags for this GIF (Note\: Not available when using the Public Beta Key)'
+        items:
+          type: string
+          minItems: 0
+          example: ['cat', 'dog', 'pets']
+          # TODO: is this correct?
+          maxItems: 10
+          uniqueItems: true
+      featured_tags:
+        type: array
+        description: 'An array of featured tags for this GIF (Note\: Not available when using the Public Beta Key)'
+        items:
+          type: string
+          minItems: 0
+          example: ['cat', 'dog', 'pets']
+          # TODO: is this correct?
+          maxItems: 10
+          uniqueItems: true
+      user:
+        description: An object containing data about the user associated with this GIF, if applicable.
+        $ref: '#/definitions/User'
+      source_tld:
+        type: string
+        example: 'cheezburger.com'
+        description: The top level domain of the source URL. 
+      source_post_url:
+        type: string
+        example: 'http://cheezburger.com/5282328320'
+        description: The URL of the webpage on which this GIF was found. 
+      is_hidden:
+        type: boolean
+        description: Denotes whether or not this GIF is private.
+      is_removed:
+        type: boolean
+        description: Denotes whether or not this GIF has been deleted. 
+      is_community:
+        type: boolean
+        description: Denotes whether or not this GIF has been uploaded by a GIPHY user. 
+      is_anonymous:
+        type: boolean
+        description: Denotes whether or not this GIF has been uploaded to GIPHY by an anonymous user. 
+      is_featured:
+        type: boolean
+        description: Denotes whether or not this GIF is featured on giphy.com (deprecated).
+      is_realtime:
+        type: boolean
+        description: Denotes whether or not this GIF has been sourced from a realtime crawl.
+      is_indexable:
+        type: boolean
+        description: Denotes whether or not this GIF is indexable.
+      is_sticker:
+        type: boolean
+        description: Denotes whether this GIF is a sticker (has a transparent background).
+      update_datetime:
+        type: string
+        example: '2013-08-01 12:41:48'
+        description: The date on which this GIF was last updated.
+      create_datetime:
+        type: string
+        example: '2013-08-01 12:41:48'
+        description: The date this GIF was added to the GIPHY database.
+      import_datetime:
+        type: string
+        example: '2013-08-01 12:41:48'
+        description: The creation or upload date from this GIF's source.
+      trending_datetime:
+        type: string
+        example: '2013-08-01 12:41:48'
+        description: The date on which this gif was marked trending, if applicable.
+      images:
+        type: object
+        description: An object containing data for various available formats and sizes of this GIF.
+        properties:
+          fixed_height:
+            type: object
+            description: Data surrounding versions of this GIF with a fixed height of 200 pixels. Good for mobile use.
+            properties:
+              url:
+                type: string
+                description: The publicly-accessible direct URL for this GIF.
+                example: 'https://media1.giphy.com/media/cZ7rmKfFYOvYI/200.gif'
+              width:
+                type: string
+                description: The width of this GIF in pixels.
+                example: "320"
+              height:
+                type: string
+                description: The height of this GIF in pixels.
+                example: "200"
+              size:
+                type: string
+                description: The size of this GIF in bytes.
+                example: "32381"
+              mp4:
+                type: string
+                description: The URL for this GIF in .MP4 format.
+                example: 'https://media1.giphy.com/media/cZ7rmKfFYOvYI/200.mp4'
+              mp4_size:
+                type: string
+                description: The size in bytes of the .MP4 file corresponding to this GIF.
+                example: '25123'
+              webp:
+                description: The URL for this GIF in .webp format.
+                example: 'https://media1.giphy.com/media/cZ7rmKfFYOvYI/200.webp'
+                type: string
+              webp_size:
+                description: The size in bytes of the .webp file corresponding to this GIF.
+                example: '12321'
+                type: string
+          fixed_height_still:
+            type: object
+            description: Data surrounding a static image of this GIF with a fixed height of 200 pixels.
+            properties:
+              url:
+                type: string
+                description: The publicly-accessible direct URL for this GIF.
+                example: 'https://media1.giphy.com/media/cZ7rmKfFYOvYI/200_s.gif'
+              width:
+                type: string
+                description: The width of this GIF in pixels.
+                example: "320"
+              height:
+                type: string
+                description: The height of this GIF in pixels.
+                example: "200"
+          fixed_height_downsampled:
+            type: object
+            description: Data surrounding versions of this GIF with a fixed height of 200 pixels and the number of frames reduced to 6.
+            properties:
+              url:
+                type: string
+                description: The publicly-accessible direct URL for this GIF.
+                example: 'https://media1.giphy.com/media/cZ7rmKfFYOvYI/200_d.gif'
+              width:
+                type: string
+                description: The width of this GIF in pixels.
+                example: "320"
+              height:
+                type: string
+                description: The height of this GIF in pixels.
+                example: "200"
+              size:
+                type: string
+                description: The size of this GIF in bytes.
+                example: "32381"
+              webp:
+                description: The URL for this GIF in .webp format.
+                example: 'https://media1.giphy.com/media/cZ7rmKfFYOvYI/200_d.webp'
+                type: string
+              webp_size:
+                description: The size in bytes of the .webp file corresponding to this GIF.
+                example: '12321'
+                type: string
+          fixed_width:
+            type: object
+            description: Data surrounding versions of this GIF with a fixed width of 200 pixels. Good for mobile use.
+            properties:
+              url:
+                type: string
+                description: The publicly-accessible direct URL for this GIF.
+                example: 'https://media1.giphy.com/media/cZ7rmKfFYOvYI/200w.gif'
+              width:
+                type: string
+                description: The width of this GIF in pixels.
+                example: "320"
+              height:
+                type: string
+                description: The height of this GIF in pixels.
+                example: "200"
+              size:
+                type: string
+                description: The size of this GIF in bytes.
+                example: "32381"
+              mp4:
+                type: string
+                description: The URL for this GIF in .MP4 format.
+                example: 'https://media1.giphy.com/media/cZ7rmKfFYOvYI/200w.mp4'
+              mp4_size:
+                type: string
+                description: The size in bytes of the .MP4 file corresponding to this GIF.
+                example: '25123'
+              webp:
+                description: The URL for this GIF in .webp format.
+                example: 'https://media1.giphy.com/media/cZ7rmKfFYOvYI/200w.webp'
+                type: string
+              webp_size:
+                description: The size in bytes of the .webp file corresponding to this GIF.
+                example: '12321'
+                type: string
+          fixed_width_still:
+            type: object
+            description: Data surrounding a static image of this GIF with a fixed height of 200 pixels.
+            properties:
+              url:
+                type: string
+                description: The publicly-accessible direct URL for this GIF.
+                example: 'https://media1.giphy.com/media/cZ7rmKfFYOvYI/200w_s.gif'
+              width:
+                type: string
+                description: The width of this GIF in pixels.
+                example: "320"
+              height:
+                type: string
+                description: The height of this GIF in pixels.
+                example: "200"
+          fixed_width_downsampled:
+            type: object
+            description: Data surrounding versions of this GIF with a fixed width of 200 pixels and the number of frames reduced to 6.
+            properties:
+              url:
+                type: string
+                description: The publicly-accessible direct URL for this GIF.
+                example: 'https://media1.giphy.com/media/cZ7rmKfFYOvYI/200w_d.gif'
+              width:
+                type: string
+                description: The width of this GIF in pixels.
+                example: "320"
+              height:
+                type: string
+                description: The height of this GIF in pixels.
+                example: "200"
+              size:
+                type: string
+                description: The size of this GIF in bytes.
+                example: "32381"
+              webp:
+                description: The URL for this GIF in .webp format.
+                example: 'https://media1.giphy.com/media/cZ7rmKfFYOvYI/200w_d.webp'
+                type: string
+              webp_size:
+                description: The size in bytes of the .webp file corresponding to this GIF.
+                example: '12321'
+                type: string
+          fixed_height_small:
+            type: object
+            description: Data surrounding versions of this GIF with a fixed height of 100 pixels. Good for mobile keyboards.
+            properties:
+              url:
+                type: string
+                description: The publicly-accessible direct URL for this GIF.
+                example: 'https://media1.giphy.com/media/cZ7rmKfFYOvYI/100.gif'
+              width:
+                type: string
+                description: The width of this GIF in pixels.
+                example: "320"
+              height:
+                type: string
+                description: The height of this GIF in pixels.
+                example: "100"
+              size:
+                type: string
+                description: The size of this GIF in bytes.
+                example: "32381"
+              mp4:
+                type: string
+                description: The URL for this GIF in .MP4 format.
+                example: 'https://media1.giphy.com/media/cZ7rmKfFYOvYI/100.mp4'
+              mp4_size:
+                type: string
+                description: The size in bytes of the .MP4 file corresponding to this GIF.
+                example: '25123'
+              webp:
+                description: The URL for this GIF in .webp format.
+                example: 'https://media1.giphy.com/media/cZ7rmKfFYOvYI/100.webp'
+                type: string
+              webp_size:
+                description: The size in bytes of the .webp file corresponding to this GIF.
+                example: '12321'
+                type: string
+          fixed_height_small_still:
+            type: object
+            description: Data surrounding a static image of this GIF with a fixed height of 100 pixels.
+            properties:
+              url:
+                type: string
+                description: The publicly-accessible direct URL for this GIF.
+                example: 'https://media1.giphy.com/media/cZ7rmKfFYOvYI/100_s.gif'
+              width:
+                type: string
+                description: The width of this GIF in pixels.
+                example: "320"
+              height:
+                type: string
+                description: The height of this GIF in pixels.
+                example: "100"
+          fixed_width_small:
+            type: object
+            description: Data surrounding versions of this GIF with a fixed width of 100 pixels. Good for mobile keyboards.
+            properties:
+              url:
+                type: string
+                description: The publicly-accessible direct URL for this GIF.
+                example: 'https://media1.giphy.com/media/cZ7rmKfFYOvYI/100w.gif'
+              width:
+                type: string
+                description: The width of this GIF in pixels.
+                example: "100"
+              height:
+                type: string
+                description: The height of this GIF in pixels.
+                example: "200"
+              size:
+                type: string
+                description: The size of this GIF in bytes.
+                example: "32381"
+              mp4:
+                type: string
+                description: The URL for this GIF in .MP4 format.
+                example: 'https://media1.giphy.com/media/cZ7rmKfFYOvYI/100w.mp4'
+              mp4_size:
+                type: string
+                description: The size in bytes of the .MP4 file corresponding to this GIF.
+                example: '25123'
+              webp:
+                description: The URL for this GIF in .webp format.
+                example: 'https://media1.giphy.com/media/cZ7rmKfFYOvYI/100w.webp'
+                type: string
+              webp_size:
+                description: The size in bytes of the .webp file corresponding to this GIF.
+                example: '12321'
+                type: string
+          fixed_width_small_still:
+            type: object
+            description: Data surrounding a static image of this GIF with a fixed width of 100 pixels.
+            properties:
+              url:
+                type: string
+                description: The publicly-accessible direct URL for this GIF.
+                example: 'https://media1.giphy.com/media/cZ7rmKfFYOvYI/100w_s.gif'
+              width:
+                type: string
+                description: The width of this GIF in pixels.
+                example: "100"
+              height:
+                type: string
+                description: The height of this GIF in pixels.
+                example: "200"
+          downsized:
+            type: object
+            description: Data surrounding a version of this GIF downsized to be under 2mb.
+            properties:
+              url:
+                type: string
+                description: The publicly-accessible direct URL for this GIF.
+                example: 'https://media1.giphy.com/media/cZ7rmKfFYOvYI/giphy-downsized.gif'
+              width:
+                type: string
+                description: The width of this GIF in pixels.
+                example: "320"
+              height:
+                type: string
+                description: The height of this GIF in pixels.
+                example: "200"
+              size:
+                type: string
+                description: The size of this GIF in bytes.
+                example: "12381"
+          downsized_still:
+            type: object
+            description: Data surrounding a static preview image of the downsized version of this GIF.
+            properties:
+              url:
+                type: string
+                description: The publicly-accessible direct URL for this GIF.
+                example: 'https://media1.giphy.com/media/cZ7rmKfFYOvYI/giphy-downsized_s.gif'
+              width:
+                type: string
+                description: The width of this GIF in pixels.
+                example: "320"
+              height:
+                type: string
+                description: The height of this GIF in pixels.
+                example: "200"
+          downsized_large:
+            type: object
+            description: Data surrounding a version of this GIF downsized to be under 8mb.
+            properties:
+              url:
+                type: string
+                description: The publicly-accessible direct URL for this GIF.
+                example: 'https://media1.giphy.com/media/cZ7rmKfFYOvYI/giphy-downsized_l.gif'
+              width:
+                type: string
+                description: The width of this GIF in pixels.
+                example: "320"
+              height:
+                type: string
+                description: The height of this GIF in pixels.
+                example: "200"
+              size:
+                type: string
+                description: The size of this GIF in bytes.
+                example: "32381"
+          downsized_medium:
+            type: object
+            description: Data surrounding a version of this GIF downsized to be under 5mb.
+            properties:
+              url:
+                type: string
+                description: The publicly-accessible direct URL for this GIF.
+                example: 'https://media1.giphy.com/media/cZ7rmKfFYOvYI/giphy-downsized_m.gif'
+              width:
+                type: string
+                description: The width of this GIF in pixels.
+                example: "320"
+              height:
+                type: string
+                description: The height of this GIF in pixels.
+                example: "200"
+              size:
+                type: string
+                description: The size of this GIF in bytes.
+                example: "32381"
+          downsized_small:
+            type: object
+            description: Data surrounding a version of this GIF downsized to be under 200kb.
+            properties:
+              mp4:
+                type: string
+                description: The publicly-accessible direct URL for this GIF.
+                example: 'https://media1.giphy.com/media/cZ7rmKfFYOvYI/giphy-downsized_small.gif'
+              width:
+                type: string
+                description: The width of this GIF in pixels.
+                example: "320"
+              height:
+                type: string
+                description: The height of this GIF in pixels.
+                example: "200"
+              mp4_size:
+                type: string
+                description: The size of this GIF in bytes.
+                example: "122381"
+          original:
+            type: object
+            description: Data surrounding the original version of this GIF. Good for desktop use.
+            properties:
+              url:
+                type: string
+                description: The publicly-accessible direct URL for this GIF.
+                example: 'https://media1.giphy.com/media/cZ7rmKfFYOvYI/giphy.gif'
+              width:
+                type: string
+                description: The width of this GIF in pixels.
+                example: "320"
+              height:
+                type: string
+                description: The height of this GIF in pixels.
+                example: "200"
+              size:
+                type: string
+                description: The size of this GIF in bytes.
+                example: "32381"
+              frames:
+                type: string
+                description: The number of frames in this GIF.
+                example: "15"
+              mp4:
+                type: string
+                description: The URL for this GIF in .MP4 format.
+                example: 'https://media1.giphy.com/media/cZ7rmKfFYOvYI/giphy.mp4'
+              mp4_size:
+                type: string
+                description: The size in bytes of the .MP4 file corresponding to this GIF.
+                example: '25123'
+              webp:
+                description: The URL for this GIF in .webp format.
+                example: 'https://media1.giphy.com/media/cZ7rmKfFYOvYI/giphy.webp'
+                type: string
+              webp_size:
+                description: The size in bytes of the .webp file corresponding to this GIF.
+                example: '12321'
+                type: string
+          original_still:
+            type: object
+            description: Data surrounding a static preview image of the original GIF.
+            properties:
+              url:
+                type: string
+                description: The publicly-accessible direct URL for this GIF.
+                example: 'https://media1.giphy.com/media/cZ7rmKfFYOvYI/giphy_s.gif'
+              width:
+                type: string
+                description: The width of this GIF in pixels.
+                example: "320"
+              height:
+                type: string
+                description: The height of this GIF in pixels.
+                example: "200"
+          looping:
+            type: object
+            description: Data surrounding a version of this GIF set to loop for 15 seconds.
+            properties:
+              mp4:
+                type: string
+                description: The URL for this GIF in .MP4 format.
+                example: 'https://media1.giphy.com/media/cZ7rmKfFYOvYI/looping.mp4'
+          preview:
+            type: object
+            description: Data surrounding a version of this GIF in .MP4 format limited to 50kb that displays the first 1-2 seconds of the GIF.
+            properties:
+              mp4:
+                type: string
+                description: The URL for this GIF in .MP4 format.
+                example: 'https://media1.giphy.com/media/cZ7rmKfFYOvYI/giphy-preview.mp4'
+              mp4_size:
+                type: string
+                description: The size of this file in bytes.
+                example: "20241"
+              width:
+                type: string
+                description: The width of this file in pixels.
+                example: "320"
+              height:
+                type: string
+                description: The height of this file in pixels.
+                example: "200"
+          preview_gif:
+            type: object
+            description: Data surrounding a version of this GIF limited to 50kb that displays the first 1-2 seconds of the GIF.
+            properties:
+              url:
+                type: string
+                description: The URL for this preview GIF.
+                example: 'https://media1.giphy.com/media/cZ7rmKfFYOvYI/giphy-preview.gif'
+              width:
+                type: string
+                description: The width of this GIF in pixels.
+                example: "320"
+              height:
+                type: string
+                description: The height of this GIF in pixels.
+                example: "200"
+              size:
+                type: string
+                description: The size of this file in bytes.
+                example: "10291"
+
+  RandomGif:
+    type: object
+    description: An object containing data that describes GIFs returned by the query.
+    properties:
+      type:
+        type: string
+        description: By default, this is almost always gif
+        default: "gif"
+        example: "gif"
+      id:
+        type: string
+        description: This GIF's unique ID
+        example: "Ggjwvmqktuvf2"
+      url:
+        type: string
+        description: The URL for this preview GIF.
+        example: "http://giphy.com/gifs/american-psycho-christian-bale-Ggjwvmqktuvf2"
+      image_original_url:
+        type: string
+        description: The URL for the original preview GIF.
+        example: "http://s3.amazonaws.com/giphygifs/media/Ggjwvmqktuvf2/giphy.gif"
+      image_url:
+        type: string
+        description: The URL for this preview GIF.
+        example: "http://s3.amazonaws.com/giphygifs/media/Ggjwvmqktuvf2/giphy.gif"
+      image_mp4_url:
+        type: string
+        description: The URL for this preview GIF.
+        example: "http://s3.amazonaws.com/giphygifs/media/Ggjwvmqktuvf2/giphy.mp4"
+      image_frames:
+        type: string
+        description: The number of frames in this GIF.
+        example: "11"
+      image_width:
+        type: string
+        description: The width of this GIF.
+        example: "500"
+      image_height:
+        type: string
+        description: The height of this GIF.
+        example: "256"
+      fixed_height_downsampled_url:
+        type: string
+        description: A version of this GIF with a fixed height of 200 pixels and the number of frames reduced to 6.
+        example: "http://s3.amazonaws.com/giphygifs/media/Ggjwvmqktuvf2/200_d.gif"
+      fixed_height_downsampled_width:
+        type: string
+        example: "391"
+      fixed_height_downsampled_height:
+        type: string
+        example: "200"
+      fixed_width_downsampled_url:
+        type: string
+        description: A version of this GIF with a fixed width of 200 pixels and the number of frames reduced to 6.
+        example: "http://s3.amazonaws.com/giphygifs/media/Ggjwvmqktuvf2/200w_d.gif"
+      fixed_width_downsampled_width:
+        type: string
+        example: "200"
+      fixed_width_downsampled_height:
+        type: string
+        example: "102"
+      fixed_height_small_url:
+        type: string
+        description: A version of this GIF with a fixed height of 100 pixels and the number of frames reduced to 6.
+        example: "http://s3.amazonaws.com/giphygifs/media/Ggjwvmqktuvf2/100.gif"
+      fixed_height_small_still_url:
+        type: string
+        description: A still version of this gif.
+        example: "http://s3.amazonaws.com/giphygifs/media/Ggjwvmqktuvf2/100_s.gif"
+      fixed_height_small_width:
+        type: string
+        example: "195"
+      fixed_height_small_height:
+        type: string
+        example: "100"
+      fixed_width_small_url:
+        type: string
+        example: "http://s3.amazonaws.com/giphygifs/media/Ggjwvmqktuvf2/100w.gif"
+      fixed_width_small_still_url:
+        type: string
+        description: A still version of this GIF with a fixed width of 100 pixels.
+        example: "http://s3.amazonaws.com/giphygifs/media/Ggjwvmqktuvf2/100w_s.gif"
+      fixed_width_small_width:
+        type: string
+        example: "100"
+      fixed_width_small_height:
+        type: string
+        example: "51"
+
+  Category:
+    type: object
+    properties:
+      name:
+        type: string
+        example: 'finger guns'
+        description: Category name
+      name_encoded:
+        type: string
+        example: 'finger-guns'
+        description: Category name, with dashes '-' instead of spaces ' '.
+      subcategories:
+        type: array
+        description: subcategories are tags for a given category. Use them with the `/gifs/categories/:category/:tag` endpoint
+        items:
+          $ref: '#/definitions/ShallowTag'
+      gif:
+        $ref: '#/definitions/Gif'
+        description: A gif which can be used as the icon for this category.
+
+  Tag:
+    type: object
+    properties:
+      name:
+        type: string
+        example: 'finger guns'
+        description: Category name
+      name_encoded:
+        example: 'finger-guns'
+        description: Category name, with dashes instead of spaces.
+      gif:
+        $ref: '#/definitions/Gif'
+        description: A gif which can be used as the icon for this category.
+
+  ShallowTag:
+    type: object
+    properties:
+      name:
+        type: string
+        example: 'finger guns'
+        description: Category name
+      name_encoded:
+        type: string
+        example: 'finger-guns'
+        description: Category name, with dashes instead of spaces.
+
+  MetaContent:
+    type: object
+    required:
+      - status
+      - msg
+    properties:
+      msg:
+        type: string
+        example: 'OK'
+        description: HTTP Response Message
+      status:
+        type: integer
+        format: int32
+        description: HTTP Response Code
+      response_id:
+        type: string
+        example: '57eea03c72381f86e05c35d2'
+        description: A unique ID paired with this response from the API.
+
+  MetaObject:
+    type: object
+    properties:
+      meta:
+        $ref: '#/definitions/MetaContent'
