@@ -37,6 +37,7 @@ def flatten(value, key="", sep="."):
     return (
             ({
                 str: lambda: [(key, value)],
+                unicode: lambda: [(key, value)],
                 int: lambda: [(key, value)],
                 float: lambda: [(key, value)],
                 NoneType: lambda: [(key, value)],
