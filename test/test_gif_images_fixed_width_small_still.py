@@ -1,9 +1,9 @@
 # coding: utf-8
 
 """
-    GIPHY Public API
+    giphy-api
 
-    A test of what Giphy API docs would look like in Gelato
+    Giphy's public api.
 
     OpenAPI spec version: 0.9.3
     
@@ -17,9 +17,9 @@ import os
 import sys
 import unittest
 
-import swagger_client
-from swagger_client.rest import ApiException
-from swagger_client.models.gif_images_fixed_width_small_still import GifImagesFixedWidthSmallStill
+import giphy_client
+from giphy_client.rest import ApiException
+from giphy_client.models.gif_images_fixed_width_small_still import GifImagesFixedWidthSmallStill
 
 
 class TestGifImagesFixedWidthSmallStill(unittest.TestCase):
@@ -35,7 +35,7 @@ class TestGifImagesFixedWidthSmallStill(unittest.TestCase):
         """
         Test GifImagesFixedWidthSmallStill
         """
-        model = swagger_client.models.gif_images_fixed_width_small_still.GifImagesFixedWidthSmallStill()
+        model = giphy_client.models.gif_images_fixed_width_small_still.GifImagesFixedWidthSmallStill()
 
 
 if __name__ == '__main__':

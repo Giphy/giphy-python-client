@@ -1,9 +1,9 @@
 # coding: utf-8
 
 """
-    GIPHY Public API
+    giphy-api
 
-    A test of what Giphy API docs would look like in Gelato
+    Giphy's public api.
 
     OpenAPI spec version: 0.9.3
     
@@ -17,9 +17,9 @@ import os
 import sys
 import unittest
 
-import swagger_client
-from swagger_client.rest import ApiException
-from swagger_client.models.inline_response_400 import InlineResponse400
+import giphy_client
+from giphy_client.rest import ApiException
+from giphy_client.models.inline_response_400 import InlineResponse400
 
 
 class TestInlineResponse400(unittest.TestCase):
@@ -35,7 +35,7 @@ class TestInlineResponse400(unittest.TestCase):
         """
         Test InlineResponse400
         """
-        model = swagger_client.models.inline_response_400.InlineResponse400()
+        model = giphy_client.models.inline_response_400.InlineResponse400()
 
 
 if __name__ == '__main__':

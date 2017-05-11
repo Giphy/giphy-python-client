@@ -1,4 +1,4 @@
-# swagger_client.DefaultApi
+# giphy_client.DefaultApi
 
 All URIs are relative to *http://api.giphy.com/v1*
 
@@ -30,12 +30,12 @@ Returns a list of tags for a given category. NOTE `limit` and `offset` must both
 ```python
 from __future__ import print_statement
 import time
-import swagger_client
-from swagger_client.rest import ApiException
+import giphy_client
+from giphy_client.rest import ApiException
 from pprint import pprint
 
 # create an instance of the API class
-api_instance = swagger_client.DefaultApi()
+api_instance = giphy_client.DefaultApi()
 api_key = 'dc6zaTOxFJmzC' # str | Giphy API Key.
 category = 'category_example' # str | Filters results by category.
 limit = 25 # int | The maximum number of records to return. (optional) (default to 25)
@@ -84,12 +84,12 @@ Returns a list of gifs for a given tag (alias to `/gif/search`).
 ```python
 from __future__ import print_statement
 import time
-import swagger_client
-from swagger_client.rest import ApiException
+import giphy_client
+from giphy_client.rest import ApiException
 from pprint import pprint
 
 # create an instance of the API class
-api_instance = swagger_client.DefaultApi()
+api_instance = giphy_client.DefaultApi()
 api_key = 'dc6zaTOxFJmzC' # str | Giphy API Key.
 category = 'category_example' # str | Filters results by category.
 tag = 'tag_example' # str | Filters results by tag.
@@ -140,12 +140,12 @@ Returns a list of categories.
 ```python
 from __future__ import print_statement
 import time
-import swagger_client
-from swagger_client.rest import ApiException
+import giphy_client
+from giphy_client.rest import ApiException
 from pprint import pprint
 
 # create an instance of the API class
-api_instance = swagger_client.DefaultApi()
+api_instance = giphy_client.DefaultApi()
 api_key = 'dc6zaTOxFJmzC' # str | Giphy API Key.
 limit = 25 # int | The maximum number of records to return. (optional) (default to 25)
 
@@ -190,12 +190,12 @@ A multiget version of the get GIF by ID endpoint.
 ```python
 from __future__ import print_statement
 import time
-import swagger_client
-from swagger_client.rest import ApiException
+import giphy_client
+from giphy_client.rest import ApiException
 from pprint import pprint
 
 # create an instance of the API class
-api_instance = swagger_client.DefaultApi()
+api_instance = giphy_client.DefaultApi()
 api_key = 'dc6zaTOxFJmzC' # str | Giphy API Key.
 ids = 'feqkVgjJpYtjy,7rzbxdu0ZEXLy' # str | Filters results by specified GIF IDs, separated by commas.
 
@@ -240,12 +240,12 @@ Returns a GIF given that GIF's unique ID
 ```python
 from __future__ import print_statement
 import time
-import swagger_client
-from swagger_client.rest import ApiException
+import giphy_client
+from giphy_client.rest import ApiException
 from pprint import pprint
 
 # create an instance of the API class
-api_instance = swagger_client.DefaultApi()
+api_instance = giphy_client.DefaultApi()
 api_key = 'dc6zaTOxFJmzC' # str | Giphy API Key.
 gif_id = 'gif_id_example' # str | Filters results by specified GIF ID.
 
@@ -290,12 +290,12 @@ Returns a random GIF, limited by tag. Excluding the tag parameter will return a 
 ```python
 from __future__ import print_statement
 import time
-import swagger_client
-from swagger_client.rest import ApiException
+import giphy_client
+from giphy_client.rest import ApiException
 from pprint import pprint
 
 # create an instance of the API class
-api_instance = swagger_client.DefaultApi()
+api_instance = giphy_client.DefaultApi()
 api_key = 'dc6zaTOxFJmzC' # str | Giphy API Key.
 tag = 'burrito' # str | Filters results by specified tag. (optional)
 rating = 'g' # str | Filters results by specified rating. (optional)
@@ -344,12 +344,12 @@ Search all Giphy GIFs for a word or phrase. Punctuation will be stripped and ign
 ```python
 from __future__ import print_statement
 import time
-import swagger_client
-from swagger_client.rest import ApiException
+import giphy_client
+from giphy_client.rest import ApiException
 from pprint import pprint
 
 # create an instance of the API class
-api_instance = swagger_client.DefaultApi()
+api_instance = giphy_client.DefaultApi()
 api_key = 'dc6zaTOxFJmzC' # str | Giphy API Key.
 q = 'cheeseburgers' # str | Search query term or prhase.
 limit = 25 # int | The maximum number of records to return. (optional) (default to 25)
@@ -404,12 +404,12 @@ The translate API draws on search, but uses the Giphy `special sauce` to handle 
 ```python
 from __future__ import print_statement
 import time
-import swagger_client
-from swagger_client.rest import ApiException
+import giphy_client
+from giphy_client.rest import ApiException
 from pprint import pprint
 
 # create an instance of the API class
-api_instance = swagger_client.DefaultApi()
+api_instance = giphy_client.DefaultApi()
 api_key = 'dc6zaTOxFJmzC' # str | Giphy API Key.
 s = 'ryan gosling' # str | Search term.
 
@@ -454,12 +454,12 @@ Fetch GIFs currently trending online. Hand curated by the GIPHY editorial team. 
 ```python
 from __future__ import print_statement
 import time
-import swagger_client
-from swagger_client.rest import ApiException
+import giphy_client
+from giphy_client.rest import ApiException
 from pprint import pprint
 
 # create an instance of the API class
-api_instance = swagger_client.DefaultApi()
+api_instance = giphy_client.DefaultApi()
 api_key = 'dc6zaTOxFJmzC' # str | Giphy API Key.
 limit = 25 # int | The maximum number of records to return. (optional) (default to 25)
 rating = 'g' # str | Filters results by specified rating. (optional)
@@ -508,12 +508,12 @@ Returns a random GIF, limited by tag. Excluding the tag parameter will return a 
 ```python
 from __future__ import print_statement
 import time
-import swagger_client
-from swagger_client.rest import ApiException
+import giphy_client
+from giphy_client.rest import ApiException
 from pprint import pprint
 
 # create an instance of the API class
-api_instance = swagger_client.DefaultApi()
+api_instance = giphy_client.DefaultApi()
 api_key = 'dc6zaTOxFJmzC' # str | Giphy API Key.
 tag = 'burrito' # str | Filters results by specified tag. (optional)
 rating = 'g' # str | Filters results by specified rating. (optional)
@@ -562,12 +562,12 @@ Replicates the functionality and requirements of the classic GIPHY search, but r
 ```python
 from __future__ import print_statement
 import time
-import swagger_client
-from swagger_client.rest import ApiException
+import giphy_client
+from giphy_client.rest import ApiException
 from pprint import pprint
 
 # create an instance of the API class
-api_instance = swagger_client.DefaultApi()
+api_instance = giphy_client.DefaultApi()
 api_key = 'dc6zaTOxFJmzC' # str | Giphy API Key.
 q = 'cheeseburgers' # str | Search query term or prhase.
 limit = 25 # int | The maximum number of records to return. (optional) (default to 25)
@@ -622,12 +622,12 @@ The translate API draws on search, but uses the Giphy `special sauce` to handle 
 ```python
 from __future__ import print_statement
 import time
-import swagger_client
-from swagger_client.rest import ApiException
+import giphy_client
+from giphy_client.rest import ApiException
 from pprint import pprint
 
 # create an instance of the API class
-api_instance = swagger_client.DefaultApi()
+api_instance = giphy_client.DefaultApi()
 api_key = 'dc6zaTOxFJmzC' # str | Giphy API Key.
 s = 'ryan gosling' # str | Search term.
 
@@ -672,12 +672,12 @@ Fetch GIFs currently trending online. Hand curated by the GIPHY editorial team. 
 ```python
 from __future__ import print_statement
 import time
-import swagger_client
-from swagger_client.rest import ApiException
+import giphy_client
+from giphy_client.rest import ApiException
 from pprint import pprint
 
 # create an instance of the API class
-api_instance = swagger_client.DefaultApi()
+api_instance = giphy_client.DefaultApi()
 api_key = 'dc6zaTOxFJmzC' # str | Giphy API Key.
 limit = 25 # int | The maximum number of records to return. (optional) (default to 25)
 rating = 'g' # str | Filters results by specified rating. (optional)

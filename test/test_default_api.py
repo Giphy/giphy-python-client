@@ -19,9 +19,9 @@ import json
 import unittest
 import collections
 
-import swagger_client
-from swagger_client.rest import ApiException
-from swagger_client.apis.default_api import DefaultApi
+import giphy_client
+from giphy_client.rest import ApiException
+from giphy_client.apis.default_api import DefaultApi
 
 NoneType = type(None)
 
@@ -66,7 +66,7 @@ class TestDefaultApi(unittest.TestCase):
     """ DefaultApi unit test stubs """
 
     def setUp(self):
-        self.api = swagger_client.apis.default_api.DefaultApi()
+        self.api = giphy_client.apis.default_api.DefaultApi()
 
     def tearDown(self):
         pass

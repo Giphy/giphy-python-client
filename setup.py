@@ -14,7 +14,7 @@
 import sys
 from setuptools import setup, find_packages
 
-NAME = "swagger_client"
+NAME = "giphy_client"
 VERSION = "1.0.0"
 # To install the library, run the following
 #
@@ -30,7 +30,7 @@ setup(
     version=VERSION,
     description="giphy-api",
     author_email="",
-    url="",
+    url="https://github.com/Giphy/giphy-python-client",
     keywords=["Swagger", "giphy-api"],
     install_requires=REQUIRES,
     packages=find_packages(),
