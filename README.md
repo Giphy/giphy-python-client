@@ -32,20 +32,6 @@ Then import the package:
 import giphy_client 
 ```
 
-### Setuptools
-
-Install via [Setuptools](http://pypi.python.org/pypi/setuptools).
-
-```sh
-python setup.py install --user
-```
-(or `sudo python setup.py install` to install the package for all users)
-
-Then import the package:
-```python
-import giphy_client
-```
-
 ## Getting Started
 
 Please follow the [installation procedure](#installation--usage) and then run the following:
