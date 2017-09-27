@@ -29,6 +29,7 @@ setup(
     name=NAME,
     version=VERSION,
     description="giphy-api",
+    license="MPLv2",
     author_email="",
     url="https://github.com/Giphy/giphy-python-client",
     keywords=["Swagger", "giphy-api"],
