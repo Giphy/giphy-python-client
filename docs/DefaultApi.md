@@ -28,7 +28,6 @@ Returns a list of tags for a given category. NOTE `limit` and `offset` must both
 
 ### Example 
 ```python
-from __future__ import print_statement
 import time
 import giphy_client
 from giphy_client.rest import ApiException
