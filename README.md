@@ -1,9 +1,17 @@
+# :warning: This project is currently unmaintained
+
+This client is not up to date with the latest Giphy API version and is unlikely to receive support in the future.
+
+Alternatives include:
+
+- SDKs documented on our Developer site: https://developers.giphy.com/docs/sdk/
+- Directly performing API calls, see: https://developers.giphy.com/docs/api
+- Third-party-libraries
+
+
 # Giphy Core Client for Python
 
-
 The **Giphy Core SDK** is a wrapper around [Giphy API](https://github.com/Giphy/GiphyAPI).
-
-[![Build Status](https://travis-ci.com/Giphy/giphy-python-client.svg?token=ytpQbMSuy8sydsqZwbwp&branch=master)](https://travis-ci.com/Giphy/giphy-python-client)
 
 [Giphy](https://www.giphy.com) is the best way to search, share, and discover GIFs on the Internet. Similar to the way other search engines work, the majority of our content comes from indexing based on the best and most popular GIFs and search terms across the web. We organize all those GIFs so you can find the good content easier and share it out through your social channels. We also feature some of our favorite GIF artists and work with brands to create and promote their original GIF content.
 
